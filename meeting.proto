@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+service MeetingService
+{
+    rpc BookMeeting(MeetingRequest) returns (BookResponse); //预约会议
+    rpc QueryByID(QueryByIDRequest) returns (Meeting); //查询会议 传入id
+    rpc QueryByOrganizer(QueryByOrganizerRequest) returns (MeetingList); //查询所有会议 传入组织者姓名
+    rpc CancelMeeting(CancelRequest) returns (CancelResponse); //取消会议
+    rpc GetFreeRooms(EmptyRequest) returns (RoomList); //空闲会议室查询
+}
+
+message EmptyRequest {}
+
+message Room
+{
+    string roomName = 1;
+}
+
+message RoomList
+{
+    repeated Room rooms = 1;
+}
+
+message Meeting
+{
+    string meetingID = 1;  //预约ID
+    string organizer = 2; //组织者姓名
+    string roomName = 3;  //会议室名字
+    string topic = 4;  //会议主题
+    string startTime = 5;  //预约开始时间
+    string endTime = 6; //预约结束时间
+    int32 peopleCount = 7; //参与人数
+}
+
+message MeetingRequest
+{
+    Meeting meeting = 1;
+}
+
+message BookResponse
+{
+    bool success = 1;
+    string meetingID = 2;
+}
+
+message QueryByIDRequest
+{
+    string meetingID = 1;
+}
+
+message QueryByOrganizerRequest
+{
+    string organizerName = 1;
+}
+
+message MeetingList
+{
+    repeated Meeting meetings = 1;
+}
+
+message CancelRequest
+{
+    string meetingID = 1;
+}
+
+message CancelResponse
+{
+    bool success = 1;
+}
